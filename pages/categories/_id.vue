@@ -12,10 +12,15 @@
               :src="`https://frontend-test.idaproject.com${product.photo}`"
               :class="$style.productImage"
             />
-            <cart-icon
-              :class="$style.icon"
-              @click="toggleItemInCart(product)"
-            />
+            <div v-if="!isInCart(product.id)">
+              <cart-icon :class="$style.icon" @click="addItemToCart(product)" />
+            </div>
+            <div v-else>
+              <garbage-icon
+                :class="$style.icon"
+                @click="removeItemFromCart(product)"
+              />
+            </div>
           </div>
           <div :class="$style.productName">{{ product.name }}</div>
           <div :class="$style.productPrice">{{ product.price }} ₽</div>
@@ -27,12 +32,14 @@
 
 <script>
 import CartIcon from '@/assets/icons/cart_14.svg?inline';
+import GarbageIcon from '@/assets/icons/garbage_22.svg?inline';
 import StarIcon from '@/assets/icons/star_14.svg?inline';
 
 export default {
   components: {
     CartIcon,
     StarIcon,
+    GarbageIcon,
   },
   computed: {
     isInCart() {
@@ -42,6 +49,12 @@ export default {
   methods: {
     toggleItemInCart(item) {
       this.$store.dispatch('cart/toggleItemInCart', item);
+    },
+    addItemToCart(item) {
+      this.$store.dispatch('cart/addItemToCart', item);
+    },
+    removeItemFromCart(item) {
+      this.$store.dispatch('cart/removeItemFromCart', item);
     },
   },
   async asyncData({ $axios, params }) {
@@ -55,6 +68,9 @@ export default {
 <style lang="scss" module>
 .icon {
   transition: fill 0.4s ease;
+  width: 15px;
+  height: 15px;
+  //Не работает, не смог никак исправить
   &:hover {
     fill: $black-color;
     cursor: pointer;
