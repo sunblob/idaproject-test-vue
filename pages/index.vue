@@ -4,11 +4,6 @@
 
 <script>
 export default {
-  head() {
-    return {
-      title: 'KEK :)',
-    };
-  },
   // Не всегда работает
   // created() {
   //   this.$router.replace('/categories')

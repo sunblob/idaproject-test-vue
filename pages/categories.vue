@@ -9,8 +9,12 @@
       <aside>
         <ul :class="$style.list">
           <li v-for="category in categories" :key="category.id">
+            <!-- :to="`/categories/${category.id}`" -->
             <nuxt-link
-              :to="`/categories/${category.id}`"
+              :to="{
+                name: 'categories-id',
+                params: { id: category.id },
+              }"
               :class="$style.listItem"
             >
               {{ category.name }}
@@ -35,13 +39,16 @@ export default {
     const categories = await $axios.$get(`/product-category`);
 
     if (categories) {
-      redirect(`/categories/${categories[0].id}`);
+      redirect({
+        name: 'categories-id',
+        params: { id: categories[0].id },
+      });
     }
 
     return { categories };
   },
   mounted() {
-    if (localStorage.getItem('cartItems'))
+    if (localStorage.getItem('cartItems')) {
       try {
         const items = JSON.parse(localStorage.getItem('cartItems'));
         if (items.length !== 0) {
@@ -50,6 +57,7 @@ export default {
       } catch (e) {
         localStorage.removeItem('cartItems');
       }
+    }
   },
   //   computed: {
   //     categories() {

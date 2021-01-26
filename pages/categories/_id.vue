@@ -1,7 +1,8 @@
 <template>
   <div class="content">
-    <div>
-      <div :class="$style.cardList">
+    <div v-if="$fetchState.pending" class="loader">Loading....</div>
+    <div v-else-if="$fetchState.error">Error while fetching products</div>
+      <div :class="$style.cardList" v-else>
         <div :class="$style.card" v-for="product in products" :key="product.id">
           <div :class="$style.cardTop">
             <div :class="$style.ratingWrapper">
@@ -46,6 +47,11 @@ export default {
       return (id) => this.$store.getters['cart/isInCart'](id);
     },
   },
+  data() {
+    return {
+      products: [],
+    };
+  },
   methods: {
     toggleItemInCart(item) {
       this.$store.dispatch('cart/toggleItemInCart', item);
@@ -57,10 +63,27 @@ export default {
       this.$store.dispatch('cart/removeItemFromCart', item);
     },
   },
-  async asyncData({ $axios, params }) {
-    const id = params.id;
-    const products = await $axios.$get(`/product?category=${id}`);
-    return { products };
+  // async asyncData({ params, $axios }) {
+  //   console.log(params);
+
+  //   if (!params.id) {
+  //     return;
+  //   }
+  //   const id = params.id;
+  //   const products = await $axios.$get(`/product?category=${id}`);
+  //   return { products };
+  // },
+  watch: {
+    '$route.query': '$fetch',
+  },
+
+  async fetch() {
+    if (!this.$route.params.id) {
+      return;
+    }
+    const id = this.$route.params.id;
+    const products = await this.$axios.$get(`/product?category=${id}`);
+    this.products = products;
   },
 };
 </script>
