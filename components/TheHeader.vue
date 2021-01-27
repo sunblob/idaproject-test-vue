@@ -36,9 +36,11 @@ export default {
   methods: {
     closeModal() {
       this.showModal = false;
+      document.body.classList.remove('modal-open');
     },
     openModal() {
       this.showModal = true;
+      document.body.classList.add('modal-open');
     },
   },
 };
@@ -66,18 +68,6 @@ export default {
   &:hover {
     cursor: pointer;
   }
-
-  //   &::after {
-  //     content: '';
-  //     position: absolute;
-  //     top: -4px;
-  //     right: -4px;
-  //     width: 12px;
-  //     height: 12px;
-  //     border-radius: 50%;
-  //     color: $white-color;
-  //     background-color: $grey-light-color;
-  //   }
 }
 
 .container {

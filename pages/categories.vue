@@ -1,15 +1,13 @@
 <template>
-  <!-- <div> -->
   <div class="page">
     <div :class="$style.head">
       <h2 :class="$style.title">Каталог</h2>
-      <div :class="$style.sort">Сортировать по: <span>цене</span></div>
+      <product-sort :options="['цене', 'популярности']" @input="chooseSort" />
     </div>
     <div :class="$style.content">
       <aside>
         <ul :class="$style.list">
           <li v-for="category in categories" :key="category.id">
-            <!-- :to="`/categories/${category.id}`" -->
             <nuxt-link
               :to="{
                 name: 'categories-id',
@@ -22,10 +20,9 @@
           </li>
         </ul>
       </aside>
-      <nuxt-child />
+      <nuxt-child :sortBy="sort" />
     </div>
   </div>
-  <!-- </div> -->
 </template>
 
 <script>
@@ -34,6 +31,22 @@ export default {
     return {
       title: 'Категории',
     };
+  },
+  data() {
+    return {
+      sort: 'price',
+    };
+  },
+  methods: {
+    chooseSort(option) {
+      if (option === 'цене') {
+        this.sort = 'price';
+      }
+
+      if (option === 'популярности') {
+        this.sort = 'rating';
+      }
+    },
   },
   async asyncData({ $axios, redirect }) {
     const categories = await $axios.$get(`/product-category`);
@@ -59,15 +72,6 @@ export default {
       }
     }
   },
-  //   computed: {
-  //     categories() {
-  //       return this.$store.state.categories.categories;
-  //     },
-  //   },
-  //   fetch() {
-  //     this.$nuxt.context.store.dispatch('categories/fetchCategories');
-  //     console.log(this);
-  //   },
 };
 </script>
 

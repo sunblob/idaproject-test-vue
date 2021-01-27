@@ -4,10 +4,6 @@
 
 <script>
 export default {
-  // Не всегда работает
-  // created() {
-  //   this.$router.replace('/categories')
-  // },
   async asyncData({ redirect }) {
     redirect('/categories');
   },

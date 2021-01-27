@@ -6,6 +6,10 @@ html {
   box-sizing: border-box;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 ul,
 ol {
   margin: 0;
