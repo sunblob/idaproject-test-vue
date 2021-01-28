@@ -120,3 +120,12 @@ button:active {
     transform: rotate(360deg);
   }
 }
+
+.form-error {
+  padding: 5px 1em;
+  font-size: 12px;
+}
+
+.help {
+  color: $red-color;
+}

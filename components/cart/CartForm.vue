@@ -6,7 +6,7 @@
       <div :class="$style.formInput">
         <input type="text" placeholder="Ваше имя" v-model="form.name" />
         <div v-if="$v.form.name.$error" class="form-error">
-          <span v-if="!$v.form.name.required" class="help is-danger">
+          <span v-if="!$v.form.name.required" class="help">
             Name is required
           </span>
         </div>
@@ -21,8 +21,11 @@
           v-mask="'+7 (###) ###-##-##'"
         />
         <div v-if="$v.form.phone.$error" class="form-error">
-          <span v-if="!$v.form.phone.required" class="help is-danger">
+          <span v-if="!$v.form.phone.required" class="help">
             Phone is required
+          </span>
+          <span v-if="!$v.form.phone.minLength" class="help">
+            Phone length must be 11 digits
           </span>
         </div>
       </div>
@@ -31,7 +34,7 @@
       <div :class="$style.formInput">
         <input type="text" placeholder="Адрес" v-model="form.address" />
         <div v-if="$v.form.address.$error" class="form-error">
-          <span v-if="!$v.form.address.required" class="help is-danger">
+          <span v-if="!$v.form.address.required" class="help">
             Address is required
           </span>
         </div>
@@ -70,7 +73,7 @@ export default {
       },
       phone: {
         required,
-        minLength: minLength(11),
+        minLength: minLength(18),
       },
       address: {
         required,
