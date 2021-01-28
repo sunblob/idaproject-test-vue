@@ -2,7 +2,7 @@
   <div class="page">
     <div :class="$style.head">
       <h2 :class="$style.title">Каталог</h2>
-      <product-sort :options="['цене', 'популярности']" @input="chooseSort" />
+      <custom-sort :options="['цене', 'популярности']" @input="chooseSort" />
     </div>
     <div :class="$style.content">
       <aside>
@@ -26,7 +26,9 @@
 </template>
 
 <script>
+import CustomSort from '~/components/CustomSort.vue';
 export default {
+  components: { CustomSort },
   head() {
     return {
       title: 'Категории',
